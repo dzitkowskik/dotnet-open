@@ -4,7 +4,7 @@ namespace slnopen
 {
     internal class Options
     {
-        [Value(0, HelpText = "Extension of file to open", Required = true)]
+        [Value(0, HelpText = "Extension of file to open", Required = false)]
         public string Extension { get; set; }
 
         [Option('f', "file", HelpText = "Selected file to open", Required = false)]

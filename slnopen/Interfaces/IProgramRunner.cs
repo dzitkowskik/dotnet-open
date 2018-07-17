@@ -2,8 +2,6 @@
 {
     internal interface IProgramRunner
     {
-        void OpenFileWithDefaultProgram(string file);
-
-        void EditFileWithDefaultProgram(string file);
+        void OpenFileWithDefaultProgram(string file, bool editMode = false);
     }
 }

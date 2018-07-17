@@ -16,7 +16,7 @@ namespace slnopen.test
             var (uut, programRunner, fileSystem) = PrepareUseCaseWithTwoFilesInCurrentDirectory();
 
             // Act
-            uut.Open(new Options());
+            uut.Open(new Options() { Extension = "sln" });
 
             // Assert
             programRunner.OpenedFiles.Should().BeEquivalentTo(fileSystem.AllFiles);
@@ -44,7 +44,7 @@ namespace slnopen.test
             var (uut, programRunner, fileSystem) = PrepareUseCaseWithTwoFilesInCurrentDirectory();
 
             // Act
-            uut.Open(new Options() { EditMode = true });
+            uut.Open(new Options() { Extension = "sln", EditMode = true });
 
             // Assert
             programRunner.EditedFiles.Should().BeEquivalentTo(fileSystem.AllFiles);
@@ -65,7 +65,7 @@ namespace slnopen.test
             programRunner.EditedFiles.Should().Contain(t => t.Contains(selectedFile));
         }
 
-        private (SlnOpener, MockProgramRunner, MockFileSystem) PrepareUseCaseWithTwoFilesInCurrentDirectory()
+        private (ExtensionOpener, MockProgramRunner, MockFileSystem) PrepareUseCaseWithTwoFilesInCurrentDirectory()
         {
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
@@ -75,7 +75,7 @@ namespace slnopen.test
 
             var programRunner = new MockProgramRunner();
 
-            var uut = new SlnOpener(programRunner, fileSystem);
+            var uut = new ExtensionOpener(programRunner, fileSystem);
 
             return (uut, programRunner, fileSystem);
         }

@@ -15,26 +15,19 @@ namespace slnopen
             _fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
         }
 
-        public void OpenFileWithDefaultProgram(string file)
+        public void OpenFileWithDefaultProgram(string file, bool editMode = false)
         {
-            RunFileWithDefaultProgram(file, Verb.OPEN.ToString());
-        }
+            var mode = editMode ? Verb.EDIT.ToString() : Verb.OPEN.ToString();
 
-        public void EditFileWithDefaultProgram(string file)
-        {
-            RunFileWithDefaultProgram(file, Verb.EDIT.ToString());
-        }
-
-        private void RunFileWithDefaultProgram(string file, string action)
-        {
             var pi = new ProcessStartInfo(file)
             {
                 Arguments = _fileSystem.Path.GetFileName(file),
                 UseShellExecute = true,
                 WorkingDirectory = _fileSystem.Path.GetDirectoryName(file),
                 FileName = file,
-                Verb = action
+                Verb = mode
             };
+
             _process.StartProcess(pi);
         }
 

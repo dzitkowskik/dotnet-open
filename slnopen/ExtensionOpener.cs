@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.IO.Abstractions;
 using System.Runtime.CompilerServices;
 
@@ -19,36 +18,42 @@ namespace slnopen
 
         public void Open(Options options)
         {
-            if (string.IsNullOrEmpty(options.SelectedFile))
-                OpenAllFiles();
+            if (!string.IsNullOrEmpty(options.SelectedFile))
+                OpenSingleFile(options.SelectedFile, options.EditMode);
             else
-                OpenSelectedFile(options.SelectedFile);
+                OpenAllFilesWithExtension(options.Extension, options.EditMode);
         }
 
-        private void OpenSelectedFile(string selectedFile)
+        private void OpenAllFilesWithExtension(string extension, bool editMode)
         {
-            if (_fileSystem.Path.IsPathRooted(selectedFile))
+            foreach (var absoluteFilePath in GetAbsolutePathsOfAllFilesWithExtension(extension))
             {
-                _programRunner.OpenFileWithDefaultProgram(selectedFile);
+                OpenSingleFile(absoluteFilePath, editMode);
+            }
+        }
+
+        private string[] GetAbsolutePathsOfAllFilesWithExtension(string extension)
+        {
+            var currentDirectory = _fileSystem.Directory.GetCurrentDirectory();
+            return _fileSystem.Directory.GetFiles(currentDirectory, $"*.{extension}");
+        }
+
+        private void OpenSingleFile(string file, bool editMode)
+        {
+            var absoluteFilePath = GetAbsoluteFilePath(file);
+            _programRunner.OpenFileWithDefaultProgram(absoluteFilePath, editMode);
+        }
+
+        private string GetAbsoluteFilePath(string filePath)
+        {
+            if (_fileSystem.Path.IsPathRooted(filePath))
+            {
+                return filePath;
             }
 
             var currentDirectory = _fileSystem.Directory.GetCurrentDirectory();
 
-            var absoluteFilePath = _fileSystem.Path.Combine(currentDirectory, selectedFile);
-
-            _programRunner.OpenFileWithDefaultProgram(absoluteFilePath);
-        }
-
-        private void OpenAllFiles()
-        {
-            var currentDirectory = _fileSystem.Directory.GetCurrentDirectory();
-
-            var slnFiles = _fileSystem.Directory.GetFiles(currentDirectory, "*.sln");
-
-            foreach (var file in slnFiles)
-            {
-                _programRunner.OpenFileWithDefaultProgram(file);
-            }
+            return _fileSystem.Path.Combine(currentDirectory, filePath);
         }
     }
 }

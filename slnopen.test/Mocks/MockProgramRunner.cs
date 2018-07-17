@@ -8,14 +8,12 @@ namespace slnopen.test
 
         public IList<string> EditedFiles { get; } = new List<string>();
 
-        public void EditFileWithDefaultProgram(string file)
+        public void OpenFileWithDefaultProgram(string file, bool editMode = false)
         {
-            EditedFiles.Add(file);
-        }
-
-        public void OpenFileWithDefaultProgram(string file)
-        {
-            OpenedFiles.Add(file);
+            if (editMode)
+                EditedFiles.Add(file);
+            else
+                OpenedFiles.Add(file);
         }
     }
 }
