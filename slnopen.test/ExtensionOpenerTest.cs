@@ -1,4 +1,5 @@
 using FluentAssertions;
+using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
@@ -6,9 +7,18 @@ using Xunit;
 
 namespace slnopen.test
 {
-
-    public class SlnOpenerTest
+    public class ExtensionOpenerTest
     {
+        [Fact]
+        public void Ctor_WithNullValues_ShouldThrow()
+        {
+            // Act
+            Action action = () => new ExtensionOpener(null, null);
+
+            // Assert
+            action.Should().Throw<ArgumentNullException>();
+        }
+
         [Fact]
         public void Open_WithoutSelectedFile_ShouldOpenAllSlnFilesInCurrentDirectory()
         {
