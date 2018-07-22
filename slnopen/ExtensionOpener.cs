@@ -3,57 +3,78 @@ using System.IO.Abstractions;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("slnopen.test")]
-namespace slnopen
+namespace Slnopen
 {
+    /// <summary>
+    /// Main class containing logic of the program.
+    /// </summary>
     internal class ExtensionOpener
     {
-        private readonly IFileSystem _fileSystem;
-        private readonly IProgramRunner _programRunner;
+        private readonly IFileSystem fileSystem;
+        private readonly IProgramRunner programRunner;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExtensionOpener"/> class.
+        /// </summary>
+        /// <param name="programRunner">The program runner.</param>
+        /// <param name="fileSystem">The file system.</param>
+        /// <exception cref="ArgumentNullException">
+        /// programRunner
+        /// or
+        /// fileSystem
+        /// </exception>
         public ExtensionOpener(IProgramRunner programRunner, IFileSystem fileSystem)
         {
-            _programRunner = programRunner ?? throw new ArgumentNullException(nameof(programRunner));
-            _fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
+            this.programRunner = programRunner ?? throw new ArgumentNullException(nameof(programRunner));
+            this.fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
         }
 
+        /// <summary>
+        /// Perform file open with specified options.
+        /// </summary>
+        /// <param name="options">The options.</param>
         public void Open(Options options)
         {
             if (!string.IsNullOrEmpty(options.SelectedFile))
-                OpenSingleFile(options.SelectedFile, options.EditMode);
+            {
+                this.OpenSingleFile(options.SelectedFile, options.EditMode);
+            }
             else
-                OpenAllFilesWithExtension(options.Extension, options.EditMode);
+            {
+                this.OpenAllFilesWithExtension(options.Extension, options.EditMode);
+            }
         }
 
         private void OpenAllFilesWithExtension(string extension, bool editMode)
         {
-            foreach (var absoluteFilePath in GetAbsolutePathsOfAllFilesWithExtension(extension))
+            foreach (var absoluteFilePath in this.GetAbsolutePathsOfAllFilesWithExtension(extension))
             {
-                OpenSingleFile(absoluteFilePath, editMode);
+                this.OpenSingleFile(absoluteFilePath, editMode);
             }
         }
 
         private string[] GetAbsolutePathsOfAllFilesWithExtension(string extension)
         {
-            var currentDirectory = _fileSystem.Directory.GetCurrentDirectory();
-            return _fileSystem.Directory.GetFiles(currentDirectory, $"*.{extension}");
+            var currentDirectory = this.fileSystem.Directory.GetCurrentDirectory();
+            return this.fileSystem.Directory.GetFiles(currentDirectory, $"*.{extension}");
         }
 
         private void OpenSingleFile(string file, bool editMode)
         {
-            var absoluteFilePath = GetAbsoluteFilePath(file);
-            _programRunner.OpenFileWithDefaultProgram(absoluteFilePath, editMode);
+            var absoluteFilePath = this.GetAbsoluteFilePath(file);
+            this.programRunner.OpenFileWithDefaultProgram(absoluteFilePath, editMode);
         }
 
         private string GetAbsoluteFilePath(string filePath)
         {
-            if (_fileSystem.Path.IsPathRooted(filePath))
+            if (this.fileSystem.Path.IsPathRooted(filePath))
             {
                 return filePath;
             }
 
-            var currentDirectory = _fileSystem.Directory.GetCurrentDirectory();
+            var currentDirectory = this.fileSystem.Directory.GetCurrentDirectory();
 
-            return _fileSystem.Path.Combine(currentDirectory, filePath);
+            return this.fileSystem.Path.Combine(currentDirectory, filePath);
         }
     }
 }

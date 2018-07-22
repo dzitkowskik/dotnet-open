@@ -1,14 +1,14 @@
-﻿using System.Diagnostics;
-
-namespace slnopen.test
+﻿namespace Slnopen.Test
 {
+    using System.Diagnostics;
+
     internal class MockProcessProxy : IProcessProxy
     {
         public ProcessStartInfo LastPassedProcessStartInfo { get; private set; }
 
         public void StartProcess(ProcessStartInfo pi)
         {
-            LastPassedProcessStartInfo = pi;
+            this.LastPassedProcessStartInfo = pi;
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace slnopen.test
+﻿namespace Slnopen.Test
 {
+    using System.Collections.Generic;
+
     public class MockProgramRunner : IProgramRunner
     {
         public IList<string> OpenedFiles { get; } = new List<string>();
@@ -11,9 +11,13 @@ namespace slnopen.test
         public void OpenFileWithDefaultProgram(string file, bool editMode = false)
         {
             if (editMode)
-                EditedFiles.Add(file);
+            {
+                this.EditedFiles.Add(file);
+            }
             else
-                OpenedFiles.Add(file);
+            {
+                this.OpenedFiles.Add(file);
+            }
         }
     }
 }

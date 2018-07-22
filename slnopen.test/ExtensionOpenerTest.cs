@@ -1,12 +1,11 @@
-using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.IO.Abstractions;
-using System.IO.Abstractions.TestingHelpers;
-using Xunit;
-
-namespace slnopen.test
+namespace Slnopen.Test
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO.Abstractions.TestingHelpers;
+    using FluentAssertions;
+    using Xunit;
+
     public class ExtensionOpenerTest
     {
         [Fact]
@@ -23,7 +22,7 @@ namespace slnopen.test
         public void Open_WithoutSelectedFile_ShouldOpenAllSlnFilesInCurrentDirectory()
         {
             // Arrange
-            var (uut, programRunner, fileSystem) = PrepareUseCaseWithTwoFilesInCurrentDirectory();
+            var(uut, programRunner, fileSystem) = this.PrepareUseCaseWithTwoFilesInCurrentDirectory();
 
             // Act
             uut.Open(new Options() { Extension = "sln" });
@@ -37,7 +36,7 @@ namespace slnopen.test
         {
             // Arrange
             var selectedFile = @"second.sln";
-            var (uut, programRunner, fileSystem) = PrepareUseCaseWithTwoFilesInCurrentDirectory();
+            var(uut, programRunner, fileSystem) = this.PrepareUseCaseWithTwoFilesInCurrentDirectory();
 
             // Act
             uut.Open(new Options() { SelectedFile = selectedFile });
@@ -51,7 +50,7 @@ namespace slnopen.test
         public void Edit_WithoutSelectedFile_ShouldEditAllSlnFilesInCurrentDirectory()
         {
             // Arrange
-            var (uut, programRunner, fileSystem) = PrepareUseCaseWithTwoFilesInCurrentDirectory();
+            var(uut, programRunner, fileSystem) = this.PrepareUseCaseWithTwoFilesInCurrentDirectory();
 
             // Act
             uut.Open(new Options() { Extension = "sln", EditMode = true });
@@ -65,7 +64,7 @@ namespace slnopen.test
         {
             // Arrange
             var selectedFile = @"second.sln";
-            var (uut, programRunner, fileSystem) = PrepareUseCaseWithTwoFilesInCurrentDirectory();
+            var(uut, programRunner, fileSystem) = this.PrepareUseCaseWithTwoFilesInCurrentDirectory();
 
             // Act
             uut.Open(new Options() { EditMode = true, SelectedFile = selectedFile });
@@ -75,7 +74,7 @@ namespace slnopen.test
             programRunner.EditedFiles.Should().Contain(t => t.Contains(selectedFile));
         }
 
-        private (ExtensionOpener, MockProgramRunner, MockFileSystem) PrepareUseCaseWithTwoFilesInCurrentDirectory()
+        private(ExtensionOpener, MockProgramRunner, MockFileSystem) PrepareUseCaseWithTwoFilesInCurrentDirectory()
         {
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
