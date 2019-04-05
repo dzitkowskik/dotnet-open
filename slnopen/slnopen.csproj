@@ -7,13 +7,16 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <AssemblyName>open</AssemblyName>
   
-    <PackageId>$(SolutionName)</PackageId>
+    <PackageId>FileOpenTool</PackageId>
     <PackageVersion>1.0.1</PackageVersion>
     <Authors>Karol Dzitkowski</Authors>
-    <Description>Simple tool for opening sln files from command line.</Description>
+    <Description>Simple tool for opening files using default program from command line.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RootNamespace>slnopen</RootNamespace>
+    <Copyright>Karol Dzitkowski 2019</Copyright>
+    <RepositoryUrl>https://github.com/dzitkowskik/dotnet-open</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

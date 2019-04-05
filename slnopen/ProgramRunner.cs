@@ -10,6 +10,8 @@
     /// <seealso cref="Slnopen.IProgramRunner" />
     internal class ProgramRunner : IProgramRunner
     {
+        private const string TextFileExtension = ".txt";
+
         private readonly IProcessProxy process;
         private readonly IFileSystem fileSystem;
 
@@ -32,7 +34,8 @@
         private enum Verb
         {
             OPEN,
-            EDIT
+            EDIT,
+            RUNAS
         }
 
         /// <summary>
@@ -40,16 +43,25 @@
         /// </summary>
         /// <param name="file">The file to open.</param>
         /// <param name="editMode">if set to <c>true</c> file will be opened in edit mode.</param>
-        public void OpenFileWithDefaultProgram(string file, bool editMode = false)
+        /// <param name="adminMode">if set to <c>true</c> file will be opened in admin mode.</param>
+        public void OpenFileWithDefaultProgram(string file, bool editMode = false, bool adminMode = false)
         {
             var mode = editMode ? Verb.EDIT.ToString() : Verb.OPEN.ToString();
+            var program = file;
 
-            var pi = new ProcessStartInfo(file)
+            if (adminMode)
+            {
+                program = editMode
+                    ? AssociatedAppFinder.AssocQueryString(AssocStr.Executable, TextFileExtension)
+                    : AssociatedAppFinder.AssocQueryString(AssocStr.Executable, file);
+                mode = Verb.RUNAS.ToString();
+            }
+
+            var pi = new ProcessStartInfo(program)
             {
                 Arguments = this.fileSystem.Path.GetFileName(file),
                 UseShellExecute = true,
                 WorkingDirectory = this.fileSystem.Path.GetDirectoryName(file),
-                FileName = file,
                 Verb = mode
             };
 

@@ -37,19 +37,19 @@ namespace Slnopen
         {
             if (!string.IsNullOrEmpty(options.SelectedFile))
             {
-                this.OpenSingleFile(options.SelectedFile, options.EditMode);
+                this.OpenSingleFile(options.SelectedFile, options.EditMode, options.AdminMode);
             }
             else
             {
-                this.OpenAllFilesWithExtension(options.Extension, options.EditMode);
+                this.OpenAllFilesWithExtension(options.Extension, options.EditMode, options.AdminMode);
             }
         }
 
-        private void OpenAllFilesWithExtension(string extension, bool editMode)
+        private void OpenAllFilesWithExtension(string extension, bool editMode, bool adminMode)
         {
             foreach (var absoluteFilePath in this.GetAbsolutePathsOfAllFilesWithExtension(extension))
             {
-                this.OpenSingleFile(absoluteFilePath, editMode);
+                this.OpenSingleFile(absoluteFilePath, editMode, adminMode);
             }
         }
 
@@ -59,10 +59,10 @@ namespace Slnopen
             return this.fileSystem.Directory.GetFiles(currentDirectory, $"*.{extension}");
         }
 
-        private void OpenSingleFile(string file, bool editMode)
+        private void OpenSingleFile(string file, bool editMode, bool adminMode)
         {
             var absoluteFilePath = this.GetAbsoluteFilePath(file);
-            this.programRunner.OpenFileWithDefaultProgram(absoluteFilePath, editMode);
+            this.programRunner.OpenFileWithDefaultProgram(absoluteFilePath, editMode, adminMode);
         }
 
         private string GetAbsoluteFilePath(string filePath)
