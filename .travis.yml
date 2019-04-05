@@ -12,7 +12,8 @@ deploy:
   skip_cleanup: true
   provider: script
   script: dotnet nuget push slnopen\bin\Release\FileOpenTool.*.nupkg --api-key $NUGET_API_KEY
-  if: branch = master
+  on:
+    branch: master
 env:
   global:
     secure: eNiE7R2ovVo+yQT6YEo9QEL2WF8s2AycXHwaHn9n1T2x2c/mVtaPw9sNKnh2U/bpK8ju2kK/Io00FDdKOH8FHdQp9Q3ThnGPexWjZXrKcqgGC8JIclGEnLJR3tSgGDIbxVh9eou4Q8U2Nmx5uDCwe/gI92/suY63XQqTqR7IcRRJlFtZ/tCWNyQiMWjhdBFceBOnCuxLKCx6TgJxefPeCMWPfCOLXgkwofGHc3IVu0zfbQx0i+hRbkbSD0h7cNg67gPl6mxKxzjSPjI2UoeehEsu3igk4CUKyD7CMM7vx/KTIotdbi0+cSJjFmdwCMwF6omYn0pccZBMvf1ZWIugwT01ATJw4lQYPidcuIWcmRTYOtdM4Ub5enKXxZgktuMiOZdGDZkWvhT3K3trfcXP5cFxpWD8uJ72r1QexjbW/eu5yOHJwEhc7htJBnLKhILiOCn0He6YzT0FcN19KRHjdRnULlk33C+ReS7tRGL4NpeJmaMG7M8DZ1kYJ5lVc4ncA8iB9WC+fXHp+yzuoTygwmAoMCtcvKegP3CJJrZ+UEB9FswgrG85CwXkIHyrZMQA6frtAHZd71VYIfYUjj6udO8wrWYMeH1MZoBTfNblSaCJCB5S76KZGuyvQwMmkpiUkqiDNTGJpW+iB79WehBj5Bt3TGgcEspy5+MpNmhPrwA=
