@@ -8,7 +8,7 @@
 
         public IList<string> EditedFiles { get; } = new List<string>();
 
-        public void OpenFileWithDefaultProgram(string file, bool editMode = false)
+        public void OpenFileWithDefaultProgram(string file, bool editMode = false, bool adminMode = false)
         {
             if (editMode)
             {

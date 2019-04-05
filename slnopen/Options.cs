@@ -33,5 +33,14 @@
         /// </value>
         [Option('e', "edit", Default = false, HelpText = "Edit sln file")]
         public bool EditMode { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether admin mode is on.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if admin mode is on; otherwise, <c>false</c>.
+        /// </value>
+        [Option('a', "admin", Default = false, HelpText = "Open in admin mode")]
+        public bool AdminMode { get; set; }
     }
 }
